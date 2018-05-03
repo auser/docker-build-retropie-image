@@ -13,3 +13,4 @@ services:
             - ./BIOS:/workspace/BIOS
             - ./images:/workspace/images
             - ./scripts:/workspace/scripts
+            - ./patches:/workspace/patches
