@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 # local directory
 DIR=`dirname $0`
 
@@ -56,7 +54,7 @@ log "Mounting LOOP from offset $PART_START"
 losetup --offset "$PART_START_BYTES" -v $LOOP_DEV "$IMAGEFILE"
 
 log "Running e2fsck on $LOOP_DEV"
-e2fsck -f $LOOP_DEV
+e2fsck -f $LOOP_DEV -y
 
 log "Running resize2fs on $LOOP_DEV"
 resize2fs -p $LOOP_DEV

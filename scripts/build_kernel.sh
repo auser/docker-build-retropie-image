@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-if [[ ! -f "/workspace/images/kernel-qemu-" ]]; then
+if [[ ! -f "/workspace/images/kernel-qemu" ]]; then
   curl -o /workspace/images/kernel-qemu -OL https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/kernel-qemu-4.9.59-stretch
 fi
 

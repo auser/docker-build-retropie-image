@@ -19,7 +19,7 @@ source $DIR/utils.sh
 # set environment variables
 VERSION_MAJOR="$RETROPIEVERSION"
 IMAGE_SIZE_IN_GB="$IMAGE_SIZE_IN_GB"
-BASE_IMAGE_SIZE=4
+BASE_IMAGE_SIZE=5
 
 
 # if IMAGE_SIZE_IN_GB is not set then set size to be size of image + roms + bios
@@ -51,6 +51,9 @@ $DIR/image_tools.sh mount $IMAGE_ABS
 log "6. Copying BIOS and roms files"
 rsync -av --info=progress2 $BIOS/ $MOUNTED_BIOS/
 rsync -av --info=progress2 $ROMS/ $MOUNTED_ROMS/
+
+log "6.1. Setup bootscripts"
+$DIR/setup_tools.sh setup $IMAGE_ABS
 
 # unmount image
 log "7. Unmounting image $IMAGE_ABS"
