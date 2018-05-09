@@ -32,6 +32,10 @@ EOF
   tee $MOUNT_DIR/boot/cmdline.txt >/dev/null <<EOF
   dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait quiet loglevel=3 consoleblank=0 plymouth.enable=0 quiet init=/usr/lib/raspi-config/init_resize.sh
 EOF
+tee $MOUNT_DIR/etc/ld.so.preload >/dev/null <<EOF
+  #/usr/lib/arm-linux-gnueabihf/libarmmem.so
+EOF
+
 tee $MOUNT_DIR/etc/ld.so.preload.qemu >/dev/null <<EOF
   #/usr/lib/arm-linux-gnueabihf/libarmmem.so
 EOF

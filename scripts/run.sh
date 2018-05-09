@@ -16,15 +16,14 @@ log "Starting qemu"
 # # Emulate raspberry pi
 # IMG=$DIR/../images/2018-04-18-raspbian-stretch.img
 IMG=$DIR/../images/retropie-4.4-rpi2_rpi3.img
-RPI_KERNEL=$DIR/../images/kernel-qemu
 
+  # -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw" \
 $QEMU \
-  -kernel $RPI_KERNEL \
-  -M versatilepb \
-  -cpu arm1176 -m 256 \
-  -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw" \
-  -no-reboot \
-  -dtb $DIR/../images/versatile-pb.dtb \
+  -kernel $DIR/../images/raspbian-boot/kernel7.img \
+  -M raspi2 \
+  -m 1024 \
+  -append "rw earlyprintk loglevel=8 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 rootfstype=ext4" \
+  -dtb $DIR/../images/raspbian-boot/bcm2709-rpi-2-b.dtb \
   -drive "file=$IMG,index=0,media=disk,format=raw" \
   -net nic,macaddr="$macaddr",netdev=mynet0 \
   -netdev user,id=mynet0,hostfwd=tcp::5022-:22 \
