@@ -66,8 +66,8 @@ img_mount() {
   sed -i -e 's/^/#/' $MOUNT_DIR/etc/ld.so.preload
 
   # Fix network
-  log "img_mount - Fixing network settings"
-  cp /etc/resolv.conf "$MOUNT_DIR/etc/resolv.conf"
+  # log "img_mount - Fixing network settings"
+  # cp /etc/resolv.conf "$MOUNT_DIR/etc/resolv.conf"
 }
 
 img_umount() {

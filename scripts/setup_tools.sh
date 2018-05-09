@@ -12,101 +12,107 @@ DIR=`dirname $0`
 source $DIR/utils.sh
 
 setup() {
-  tee $MOUNT_DIR/boot/config.txt >/dev/null <<EOF
-  gpu_mem=32
-  hdmi_force_hotplug=1
-  hdmi_drive=2
-  hdmi_group=1
-  config_hdmi_boost=4
-  #set 720p with no overscan
-  hdmi_mode=4
-  disable_overscan=1
-EOF
+#   tee $MOUNT_DIR/boot/config.txt >/dev/null <<EOF
+#   gpu_mem=32
+#   hdmi_force_hotplug=1
+#   hdmi_drive=2
+#   hdmi_group=1
+#   config_hdmi_boost=4
+#   #set 720p with no overscan
+#   hdmi_mode=4
+#   disable_overscan=1
+# EOF
 
-tee $MOUNT_DIR/etc/udev/rules.d/90-qemu.rules >/dev/null <<EOF
-KERNEL=="sda", SYMLINK+="mmcblk0"
-KERNEL=="sda?", SYMLINK+="mmcblk0p%n"
-KERNEL=="sda2", SYMLINK+="root"
-EOF
+# tee $MOUNT_DIR/etc/udev/rules.d/90-qemu.rules >/dev/null <<EOF
+# KERNEL=="sda", SYMLINK+="mmcblk0"
+# KERNEL=="sda?", SYMLINK+="mmcblk0p%n"
+# KERNEL=="sda2", SYMLINK+="root"
+# EOF
 
   tee $MOUNT_DIR/boot/cmdline.txt >/dev/null <<EOF
-  dwc_otg.lpm_enable=0 console=serial0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait quiet loglevel=3 consoleblank=0 plymouth.enable=0 quiet init=/usr/lib/raspi-config/init_resize.sh
+  dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 fsck.repair=yes rootwait loglevel=8 plymouth.enable=0 quiet
 EOF
+######
+# console=serial0,115200
+# init=/usr/lib/raspi-config/init_resize.sh
+# consoleblank=0
+# elevator=deadline
+####
 tee $MOUNT_DIR/etc/ld.so.preload >/dev/null <<EOF
   #/usr/lib/arm-linux-gnueabihf/libarmmem.so
 EOF
 
-tee $MOUNT_DIR/etc/ld.so.preload.qemu >/dev/null <<EOF
-  #/usr/lib/arm-linux-gnueabihf/libarmmem.so
-EOF
+# tee $MOUNT_DIR/etc/ld.so.preload.qemu >/dev/null <<EOF
+#   #/usr/lib/arm-linux-gnueabihf/libarmmem.so
+# EOF
 
-tee $MOUNT_DIR/etc/ld.so.preload.card >/dev/null <<EOF
-/usr/lib/arm-linux-gnueabihf/libarmmem.so
-EOF
+# tee $MOUNT_DIR/etc/ld.so.preload.card >/dev/null <<EOF
+# /usr/lib/arm-linux-gnueabihf/libarmmem.so
+# EOF
 
-tee $MOUNT_DIR/etc/fstab.card >/dev/null <<EOF
-proc            /proc           proc    defaults          0       0
-/dev/mmcblk0p1  /boot           vfat    defaults,noatime  0       2
-/dev/mmcblk0p2  /               ext4    defaults,noatime  0       1
-#/dev/sda2  /               ext4    defaults,noatime  0       1
-EOF
+# tee $MOUNT_DIR/etc/fstab.card >/dev/null <<EOF
+# proc            /proc           proc    defaults          0       0
+# /dev/mmcblk0p1  /boot           vfat    defaults,noatime  0       2
+# /dev/mmcblk0p2  /               ext4    defaults,noatime  0       1
+# #/dev/sda2  /               ext4    defaults,noatime  0       1
+# EOF
 
-tee $MOUNT_DIR/etc/fstab.qemu >/dev/null <<EOF
-proc             /proc           proc    defaults          0       0
-#/dev/mmcblk0p1  /boot           vfat    defaults,noatime  0       2
-#/dev/mmcblk0p2  /               ext4    defaults,noatime  0       1
-/dev/sda2  /               ext4    defaults,noatime  0       1
-EOF
+# tee $MOUNT_DIR/etc/fstab.qemu >/dev/null <<EOF
+# proc             /proc           proc    defaults          0       0
+# #/dev/mmcblk0p1  /boot           vfat    defaults,noatime  0       2
+# #/dev/mmcblk0p2  /               ext4    defaults,noatime  0       1
+# /dev/sda2  /               ext4    defaults,noatime  0       1
+# EOF
 
-tee $MOUNT_DIR/etc/modules >/dev/null <<EOF
-# /etc/modules: kernel modules to load at boot time.
-#
-# This file contains the names of kernel modules that should be loaded
-# at boot time, one per line. Lines beginning with "#" are ignored.
-#snd-bcm2835
-#uinput
-EOF
+# tee $MOUNT_DIR/etc/modules >/dev/null <<EOF
+# # /etc/modules: kernel modules to load at boot time.
+# #
+# # This file contains the names of kernel modules that should be loaded
+# # at boot time, one per line. Lines beginning with "#" are ignored.
+# #snd-bcm2835
+# #uinput
+# EOF
 
-tee $MOUNT_DIR/etc/asound.conf >/dev/null <<EOF
-pcm.usb
-{
-    type hw
-    card Device
-}
-pcm.internal
-{
-    type hw
-    card ALSA
-}
-pcm.!default
-{
-    type asym
-    playback.pcm
-    {
-        type plug
-        slave.pcm "internal"
-    }
-    capture.pcm
-    {
-        type plug
-        slave.pcm "usb"
-    }
-}
-ctl.!default
-{
-    type asym
-    playback.pcm
-    {
-        type plug
-        slave.pcm "internal"
-    }
-    capture.pcm
-    {
-        type plug
-        slave.pcm "usb"
-    }
-}
-EOF
+# tee $MOUNT_DIR/etc/asound.conf >/dev/null <<EOF
+# pcm.usb
+# {
+#     type hw
+#     card Device
+# }
+# pcm.internal
+# {
+#     type hw
+#     card ALSA
+# }
+# pcm.!default
+# {
+#     type asym
+#     playback.pcm
+#     {
+#         type plug
+#         slave.pcm "internal"
+#     }
+#     capture.pcm
+#     {
+#         type plug
+#         slave.pcm "usb"
+#     }
+# }
+# ctl.!default
+# {
+#     type asym
+#     playback.pcm
+#     {
+#         type plug
+#         slave.pcm "internal"
+#     }
+#     capture.pcm
+#     {
+#         type plug
+#         slave.pcm "usb"
+#     }
+# }
+# EOF
 
 tee $MOUNT_DIR/etc/rc.local >/dev/null <<EOF
 #!/bin/sh -e

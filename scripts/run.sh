@@ -22,7 +22,7 @@ $QEMU \
   -kernel $DIR/../images/raspbian-boot/kernel7.img \
   -M raspi2 \
   -m 1024 \
-  -append "rw earlyprintk loglevel=8 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 rootfstype=ext4" \
+  -append "loglevel=8 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 panic=1 rootfstype=ext4 rw" \
   -dtb $DIR/../images/raspbian-boot/bcm2709-rpi-2-b.dtb \
   -drive "file=$IMG,index=0,media=disk,format=raw" \
   -net nic,macaddr="$macaddr",netdev=mynet0 \
