@@ -26,7 +26,8 @@ img_download() {
 }
 
 img_extract() {
-  if [ ! -f $IMAGE_ABS ]; then
+  if [[ ! -f $IMAGE_ABS ]]; then
+      touch $IMAGE_ABS
       gunzip -c $IMAGE_ARCHIVE_ABS > $IMAGE_ABS
   fi
   echo $IMAGE_ABS

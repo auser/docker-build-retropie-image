@@ -27,3 +27,11 @@ docker-compose run --entrypoint=/bin/bash retro
 ```
 docker-compose run --entrypoint "/bin/bash" retro -c env
 ```
+
+## Once the image has booted
+
+BE SURE TO RUN:
+
+```bash
+sudo apt-get update -yq && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y
+```

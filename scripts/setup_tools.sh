@@ -142,7 +142,6 @@ EOF
 # tmpfs            /var/lock      tmpfs   defaults,noatime,nosuid,size=64m    0 0
 # #/dev/sda2  /               ext4    defaults,noatime  0       1
 # EOF
-log "Complete"
 }
 
 main() {
